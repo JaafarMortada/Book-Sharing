@@ -1,0 +1,10 @@
+.book-cards-container{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    min-height: 100vh;
+    min-width: 100vw;
+    gap: 3rem;
+    justify-content: center;
+    margin: 50px 0 50px;
+}

@@ -1,6 +1,6 @@
 import "./styles.css"
 
-const TextInput = ({ label, name, type, placeholder, value, onChange, multiple = false }) => {
+const TextInput = ({ label, name, type, placeholder, value, onChange, multiple = false, className }) => {
     return (
         <div className="text-input-container">
             <label className="text-input-label">{label}</label>
@@ -11,7 +11,8 @@ const TextInput = ({ label, name, type, placeholder, value, onChange, multiple =
                 value={value}
                 onChange={onChange}
                 multiple={multiple}
-                className="text-input transition">
+                className= {`text-input transition ${className}`}
+                >
             </input>
         </div>
     );
