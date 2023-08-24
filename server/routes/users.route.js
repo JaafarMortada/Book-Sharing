@@ -7,5 +7,6 @@ const authMiddleware = require("../middlewares/auth.middleware")
 router.post("/register", userControllers.register)
 router.post('/create_post', authMiddleware, postController.createPost);
 router.get('/get_posts', authMiddleware, postController.getPosts);
+router.post('/:post_id/like', authMiddleware, postController.likePost);
 
 module.exports = router

@@ -1,4 +1,4 @@
-const { User, Post } = require("../models/user.model")
+const { User, Post, Like } = require("../models/user.model")
 
 const createPost = async (req, res) => {
     try {
@@ -28,37 +28,64 @@ const createPost = async (req, res) => {
 };
 
 
-const getPosts = async(req, res) => {
+const getPosts = async (req, res) => {
+    try {
+        const userId = req.userId;
+        const users = await User.find();
+        const Posts = [];
 
-    const userId = req.userId
-    const Posts = [];
-    const users = await User.find();
-    users.forEach(user => {
+        for (const user of users) {
+            for (const post of user.posts) {
+                const is_following = user.followers.includes(userId);
 
-        user.posts.forEach(post => {
-        const is_following = user.followers.includes(userId);
-        const is_liked = post.likes.some(like => like.user.toString() === userId);
+                const the_post = await Post.findById(post._id);
+                const is_liked = the_post.likes.some(
+                    (like) => like.user.toString() === userId
+                );
 
-        const updated_post = {
-            ...post.toObject(),
-            is_following,
-            is_liked
-          };
+                const updated_post = {
+                    ...post.toObject(),
+                    is_following,
+                    is_liked,
+                };
 
-          Posts.push({
-            user_name: user.name,
-            post: updated_post
-          });
+                Posts.push({
+                    user_name: user.name,
+                    post: updated_post,
+                });
+            }
+        }
 
-        });
+        res.status(201).json({ posts: Posts });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to get posts" });
+    }
+};
 
-      });
+const likePost = async (req, res) => {
+    try {
+        const { post_id } = req.params;
+        const userId = req.userId;
 
-    res.status(201).json({ posts: Posts })
-}
+        const like = new Like({ user: userId })
+        const post = await Post.findByIdAndUpdate(
+            post_id,
+            { $push: { likes: like } },
+            { new: true }
+        ).populate('likes.user');
 
+        await like.save()
+
+        if (!post) return res.status(404).json({ message: "Post not found" });
+
+        res.status(201).json({ message: "liked successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "failed to like post" });
+    }
+};
 
 module.exports = {
     createPost,
-    getPosts
+    getPosts,
+    likePost
 };
