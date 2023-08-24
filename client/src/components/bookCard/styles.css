@@ -110,7 +110,7 @@
     justify-content: space-between;
 }
 
-.like-btn{
+.like-btn, .follow-btn {
     transform: scale(1.8, 1.8);
     padding: 0 5px 0;
     background-color: rgb(82, 171, 152);
@@ -119,6 +119,11 @@
     border-radius: 3px;
 }
 
-.like-btn:hover{
+.like-btn:hover, .follow-btn:hover{
     transform: scale(2, 2);
+}
+
+.author-div{
+	display: flex;
+	justify-content: space-between;
 }

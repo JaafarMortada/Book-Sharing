@@ -20,23 +20,26 @@ const NavBar = () => {
 
     return ( 
         <div className='navbar'>
-            <div className="navbar-logo">
+            <div className="navbar-right">
+                <div className="navbar-logo">
                 <LoginLogo />
             </div>
-            
-            <div className='navbar-btns-div'>
             <div className="navbar-search">
                 <input 
-                    placeholder="Search for Book Lovers"
+                    placeholder="Search Books"
                 />
                 <img 
                     src={SearchIcon} 
                     alt="search" 
                 />
             </div>
-                <MyButton label={'button to button'} className={"navbar-btn"} onClick={openModalToAddRecipe}></MyButton>
-                <MyButton label={'button to button'} className={"navbar-btn"}></MyButton>
-                <MyButton label={'button to button'} className={"navbar-btn"}></MyButton>
+            </div>
+            
+            <div className='navbar-btns-div'>
+            
+                <MyButton label={'Create a Post'} className={"navbar-btn"} onClick={openModalToAddRecipe}></MyButton>
+                {/* <MyButton label={'button to button'} className={"navbar-btn"}></MyButton> */}
+                <MyButton label={'Logout'} className={"navbar-btn"}></MyButton>
             </div>
             <RecipeModal toggleModal={toggleModal} isOpen={isModalOpen} from={modalChoice} />
         </div>

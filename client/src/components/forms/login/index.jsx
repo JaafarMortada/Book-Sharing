@@ -32,7 +32,7 @@ const LoginForm = ( { toggleForms } ) => {
                 login_btn.innerHTML = 'success'
                 localStorage.setItem('token', response.token)
                 localStorage.setItem('name', response.user.name)
-                // navigate('/home')
+                navigate('/home')
             } else {
                 login_btn.innerHTML = 'Failed'
                 login_btn.style.backgroundColor = 'rgb(255, 109, 109)'

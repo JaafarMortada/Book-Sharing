@@ -1,4 +1,5 @@
 import { BiSolidLike } from 'react-icons/bi';
+import { MdPersonAdd } from "react-icons/md"
 import "./styles.css"
 
 const BookCard = ({data}) => {
@@ -6,7 +7,10 @@ const BookCard = ({data}) => {
         <>
             <div id="container">
                 <div className="product-details">
-                    <span><strong>Recommended by:</strong>{data.user_name}</span>
+                    <div className='author-div'>
+                        <span><strong>Recommended by:</strong>{data.user_name}</span>
+                        <span className="follow-btn"><MdPersonAdd/></span>
+                    </div>
                     <h1>{data.post.title}</h1>
                     <div className="author-like-btn">
                         <span><strong>Author: </strong>{data.post.author}</span>
@@ -14,7 +18,7 @@ const BookCard = ({data}) => {
                     </div>
                 </div>
                 <div class="product-image">
-                    <img src={data.post.pic_url} alt="Omar Dsoky" />
+                    <img src={data.post.pic_url} alt="book img" />
                     <div class="info">
                         <h2>Review</h2>
                         <ul>

@@ -29,16 +29,9 @@ const HomePage = () => {
     return ( 
         <>
         <NavBar/>
-        <div className="home-search">
-            <div className="books-search">
-                <input 
-                    placeholder="Search for Books"
-                />
-                <img 
-                    src={SearchIcon} 
-                    alt="search" 
-                />
-            </div>
+        <div className="home-hero-buttons">
+            <button className="transition active">All books</button>
+            <button className="transition">Following</button>
         </div>
         
         <div className="book-cards-container">

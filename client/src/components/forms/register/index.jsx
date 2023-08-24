@@ -34,7 +34,7 @@ const RegistrationForm = ( { toggleForms } ) => {
                 register_btn.innerHTML = 'success'
                 localStorage.setItem('token', response.token)
                 localStorage.setItem('name', response.user.name)
-                // navigate('/home')
+                navigate('/home')
             } else {
                 register_btn.innerHTML = 'Failed'
                 register_btn.style.backgroundColor = 'rgb(255, 109, 109)'
