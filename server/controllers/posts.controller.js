@@ -27,6 +27,26 @@ const createPost = async (req, res) => {
     }
 };
 
+
+const getPosts = async(req, res) => {
+  
+    const Posts = [];
+    const users = await User.find();
+    users.forEach(user => {
+        user.posts.forEach(post => {
+          Posts.push({
+            user_name: user.name,
+            post: post
+          });
+        });
+      });
+
+    res.status(201).json({ posts: Posts })
+
+}
+
+
 module.exports = {
     createPost,
+    getPosts
 };
