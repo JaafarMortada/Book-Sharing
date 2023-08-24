@@ -8,6 +8,8 @@ import "./styles.css"
 const HomePage = () => {
 
     const [books, setBooks] = useState([]);
+    const [followingFeed, setFollowingFeed] = useState(false);
+    const [followingFeedCards, setFollowingFeedCards] = useState([]);
 
     useEffect(() => {
         const getBooksHandler = async () => {
@@ -18,6 +20,9 @@ const HomePage = () => {
                 });
                 if (response.posts) {
                     setBooks(response.posts);
+                    const followingPosts = response.posts.filter(post => post.post.is_following);
+
+                    setFollowingFeedCards(followingPosts);
                 }
             } catch (error) {
                 console.log(error);
@@ -30,14 +35,23 @@ const HomePage = () => {
         <>
         <NavBar/>
         <div className="home-hero-buttons">
-            <button className="transition active">All books</button>
-            <button className="transition">Following</button>
+            <button className="transition active" onClick={() => setFollowingFeed(false)}>All books</button>
+            <button className="transition" onClick={() => setFollowingFeed(true)}>Following</button>
         </div>
         
         <div className="book-cards-container">
-            {books.map(book => (
-                 <BookCard key={book.post.createdAt} data={book}/>
-            ))}
+            {followingFeed ? 
+                    (
+                        followingFeedCards.map(book => (
+                            <BookCard key={book.post.createdAt} data={book} followingFeed={followingFeed}/>
+                        
+                    ))
+                    ) : (
+                        books.map(book => (
+                            <BookCard key={book.post.createdAt} data={book} followingFeed={followingFeed}/>
+                    ))
+                    )
+                }
         </div>
         </>
         

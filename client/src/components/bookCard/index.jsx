@@ -2,7 +2,7 @@ import { BiSolidLike } from 'react-icons/bi';
 import { SlUserFollowing, SlUserFollow } from "react-icons/sl"
 import { sendRequest } from '../config/request';
 import "./styles.css"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const BookCard = ({data}) => {
 
@@ -23,6 +23,35 @@ const BookCard = ({data}) => {
         }
     }
 
+    const followRequest = async () => {
+        try {
+            const response = await sendRequest({
+                method: "POST",
+                route: `/users/${data.post.user_id}/follow`,
+            });
+            if (response.message === "followed successfully"){
+                setFollowing(true)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const unFollowRequest = async () => {
+        try {
+            const response = await sendRequest({
+                method: "POST",
+                route: `/users/${data.post.user_id}/un_follow`,
+            });
+            if (response.message === "unFollowed successfully"){
+                setFollowing(false)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
     return (
         <>
             <div id="container">
@@ -33,7 +62,7 @@ const BookCard = ({data}) => {
                             <span 
                             className= {`follow-btn ${ following ? "follow-btn-following" : ""}`}
                             >
-                                {following? <SlUserFollowing/> : <SlUserFollow/>}
+                                { following? <SlUserFollowing onClick={unFollowRequest}/> : <SlUserFollow onClick={followRequest}/> }
                             </span>
                         }
                     </div>
