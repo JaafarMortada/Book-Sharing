@@ -110,6 +110,11 @@
     justify-content: space-between;
 }
 
+.like-button-red{
+	color: rgb(253, 73, 73);
+	background-color: #aaaaaa !important;
+}
+
 .like-btn, .follow-btn {
     transform: scale(1.8, 1.8);
     padding: 0 5px 0;
@@ -119,10 +124,16 @@
     border-radius: 3px;
 }
 
+.follow-btn{
+	height: fit-content;
+}
 .like-btn:hover, .follow-btn:hover{
     transform: scale(2, 2);
 }
 
+.follow-btn-following{
+	background-color: rgb(89, 196, 95) !important;
+}
 .author-div{
 	display: flex;
 	justify-content: space-between;
