@@ -24,7 +24,7 @@ const login = async (req, res) => {
       return res.status(401).send({ message: "Incorrect Email/Password" });
     }
 
-    const { password: hashedPassword, ...userInfo } = user.toObject();
+    const { password: hashedPassword, posts, followers, following ,...userInfo } = user.toObject();
 
     const token = jwt.sign(userInfo, process.env.SECRET_KEY);
 

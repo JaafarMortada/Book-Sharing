@@ -29,20 +29,32 @@ const createPost = async (req, res) => {
 
 
 const getPosts = async(req, res) => {
-  
+
+    const userId = req.userId
     const Posts = [];
     const users = await User.find();
     users.forEach(user => {
+
         user.posts.forEach(post => {
+        const is_following = user.followers.includes(userId);
+        const is_liked = post.likes.some(like => like.user.toString() === userId);
+
+        const updated_post = {
+            ...post.toObject(),
+            is_following,
+            is_liked
+          };
+
           Posts.push({
             user_name: user.name,
-            post: post
+            post: updated_post
           });
+
         });
+
       });
 
     res.status(201).json({ posts: Posts })
-
 }
 
 
