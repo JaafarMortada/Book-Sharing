@@ -45,6 +45,7 @@ const getPosts = async (req, res) => {
 
                 const updated_post = {
                     ...post.toObject(),
+                    user_id: user._id,
                     is_following,
                     is_liked,
                 };
