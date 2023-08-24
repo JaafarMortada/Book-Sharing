@@ -37,7 +37,7 @@ const AddBookFromModal = () => {
   };
 
   const [data, setData] = useState({
-    name: "",
+    title: "",
     author: "",
     genre: "",
     review: "",
@@ -60,7 +60,7 @@ const AddBookFromModal = () => {
       if (response.message.trim() === "Post created successfully") {
         create_book_button.innerHTML = "success";
         setData({
-          name: "",
+          title: "",
           author: "",
           genre: "",
           review: "",
@@ -84,11 +84,11 @@ const AddBookFromModal = () => {
     <div className="add-book-modal-container">
       <h1 className="add-book-header showcase-header">Share A Book!!</h1>
       <TextInput
-        name={"name"}
+        name={"title"}
         label={"Book's Name:"}
         placeholder={"Books's name"}
         onChange={handleDataChange}
-        value={data.name}
+        value={data.title}
       />
       <TextInput
         name={"author"}
