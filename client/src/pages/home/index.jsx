@@ -1,8 +1,7 @@
 import BookCard from "../../components/bookCard";
 import NavBar from "../../components/navbar";
 import { sendRequest } from "../../components/config/request";
-import { useState, useEffect } from "react";
-import SearchIcon from "../../components/navbar/search.svg"
+import { useState, useEffect, useCallback } from "react";
 import "./styles.css"
 
 const HomePage = () => {
@@ -10,6 +9,11 @@ const HomePage = () => {
     const [books, setBooks] = useState([]);
     const [followingFeed, setFollowingFeed] = useState(false);
     const [followingFeedCards, setFollowingFeedCards] = useState([]);
+    const [searchedPosts, setSearchedPosts] = useState([]);
+
+    const handleSearchResult = useCallback((searchResult) => {
+        setSearchedPosts(searchResult);
+    }, []);
 
     useEffect(() => {
         const getBooksHandler = async () => {
@@ -31,31 +35,48 @@ const HomePage = () => {
         getBooksHandler();
     }, []);
 
-    return ( 
+    return (
         <>
-        <NavBar/>
-        <div className="home-hero-buttons">
-            <button className="transition active" onClick={() => setFollowingFeed(false)}>All books</button>
-            <button className="transition" onClick={() => setFollowingFeed(true)}>Following</button>
-        </div>
-        
-        <div className="book-cards-container">
-            {followingFeed ? 
-                    (
-                        followingFeedCards.map(book => (
-                            <BookCard key={book.post.createdAt} data={book} followingFeed={followingFeed}/>
-                        
-                    ))
-                    ) : (
-                        books.map(book => (
-                            <BookCard key={book.post.createdAt} data={book} followingFeed={followingFeed}/>
-                    ))
-                    )
+            <NavBar search={handleSearchResult} />
+            <div className="home-hero-buttons">
+                <button 
+                    className={`transition ${followingFeed && searchedPosts.length == 0 ? "" : "active"}`} 
+                    onClick={() => setFollowingFeed(false)}
+                >
+                    {
+                        searchedPosts.length == 0 ? "All books" : "Results"
+                    }
+                </button>
+                {
+                    searchedPosts.length == 0 ?
+                        <button className={`transition ${followingFeed ? "active" : ""}`} onClick={() => setFollowingFeed(true)}>Following</button>
+                    :
+                        null
                 }
-        </div>
+            </div>
+
+            <div className="book-cards-container">
+                {
+                    searchedPosts.length == 0 ?
+                        (followingFeed ?
+                            (
+                                followingFeedCards.map(book => (
+                                    <BookCard key={book.post.createdAt} data={book} followingFeed={followingFeed} />
+                                ))
+                            ) : (
+                                books.map(book => (
+                                    <BookCard key={book.post.createdAt} data={book} followingFeed={followingFeed} />
+                                ))
+                            )
+                        ) : (
+                            searchedPosts.map(book => (
+                                <BookCard key={book.post._id} data={book} followingFeed={followingFeed} />
+                            ))
+                        )
+                }
+            </div>
         </>
-        
-     );
+    );
 }
- 
+
 export default HomePage;
