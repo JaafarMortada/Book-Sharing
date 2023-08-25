@@ -7,6 +7,7 @@
 	height: 250px;
 	width: 500px;
     display: flex;
+	align-items: center;
 }
 
 .product-details {
@@ -20,6 +21,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+	max-height: 240px;
 }
 
 #container .product-details h1{
@@ -113,6 +115,9 @@
 .likes-container{
 	display: flex;
 	gap: 1rem;
+	width: 100px;
+	align-items: center;
+	justify-content: flex-end;
 }
 
 .like-btn, .follow-btn {
@@ -149,4 +154,13 @@
 .author-div{
 	display: flex;
 	justify-content: space-between;
+}
+
+.title-genre{
+	display: flex;
+	flex-direction: column;
+}
+
+.card-genre{
+	color: rgba(0, 0, 0, 0.8);
 }

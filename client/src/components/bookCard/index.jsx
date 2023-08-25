@@ -71,9 +71,14 @@ const BookCard = ({data}) => {
                             </span>
                         }
                     </div>
-                    <h1>{data.post.title}</h1>
+                    <div className='title-genre'>
+                        <h1>{data.post.title}</h1>
+                        <span className='card-genre'>{data.post.genre}</span>
+                    </div>
+                    
                     <div className="author-like-btn">
                         <span><strong>Author: </strong>{data.post.author}</span>
+                        
 
                         <div className='likes-container'>
                             <span>{likesCount} Likes </span>
@@ -89,9 +94,9 @@ const BookCard = ({data}) => {
                         
                     </div>
                 </div>
-                <div class="product-image">
+                <div className="product-image">
                     <img src={data.post.pic_url} alt="book img" />
-                    <div class="info">
+                    <div className="info">
                         <h2>Review</h2>
                         <ul>
                             <li>{data.post.review}</li>
