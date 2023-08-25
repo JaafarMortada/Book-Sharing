@@ -85,8 +85,57 @@ const likePost = async (req, res) => {
     }
 };
 
+const searchPosts = async (req, res) => {
+    const { query } = req.query;
+    const handled_query = query.replace(/-/g, ' ');
+    const user_id = req.userId;
+    try {
+        const regexQuery = new RegExp(handled_query, "i");
+
+        const users = await User.find();
+
+        if (users.length > 0) {
+            const matchingPosts = [];
+
+            for (const user of users) {
+                for (const post of user.posts) {
+                    if (
+                        (post.title && post.title.match(regexQuery)) ||
+                        (post.author && post.author.match(regexQuery)) ||
+                        (post.genre && post.genre.match(regexQuery)) ||
+                        (post.review && post.review.match(regexQuery))
+                    ) {
+                        const is_liked = post.likes.some(
+                            (like) => like.user.toString() === user_id
+                        );
+                        const postInfo = {
+                            postId: post._id,
+                            title: post.title,
+                            author: post.author,
+                            genre: post.genre,
+                            review: post.review,
+                            likes: post.likes,
+                            pic_url: post.pic_url,
+                            is_liked,
+                            user_name: user.name,
+                        };
+                        matchingPosts.push(postInfo);
+                    }
+                }
+            }
+
+            return res.status(200).json({ posts: matchingPosts });
+            
+        } else return res.json({ message: "no posts found" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
 module.exports = {
     createPost,
     getPosts,
-    likePost
+    likePost,
+    searchPosts
 };

@@ -11,5 +11,6 @@ router.get('/get_posts', authMiddleware, postController.getPosts);
 router.post('/:post_id/like', authMiddleware, postController.likePost);
 router.post('/:user_id/follow', authMiddleware, followUser);
 router.post('/:user_id/un_follow', authMiddleware, unFollowUser);
+router.get("/search", authMiddleware, postController.searchPosts);
 
 module.exports = router
