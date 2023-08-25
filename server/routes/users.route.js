@@ -9,6 +9,7 @@ router.post("/register", userControllers.register)
 router.post('/create_post', authMiddleware, postController.createPost);
 router.get('/get_posts', authMiddleware, postController.getPosts);
 router.post('/:post_id/like', authMiddleware, postController.likePost);
+router.post('/:post_id/un_like', authMiddleware, postController.unLikePost);
 router.post('/:user_id/follow', authMiddleware, followUser);
 router.post('/:user_id/un_follow', authMiddleware, unFollowUser);
 router.get("/search", authMiddleware, postController.searchPosts);

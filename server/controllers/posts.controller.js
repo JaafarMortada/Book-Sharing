@@ -86,6 +86,31 @@ const likePost = async (req, res) => {
     }
 };
 
+const unLikePost = async (req, res) => {
+
+    const { post_id } = req.params;
+    const userId = req.userId;
+    
+    try{
+        const post = await Post.findById(post_id).populate("likes");
+        const likeToRemove = post.likes.find(
+            (like) => like.user._id.toString() === userId.toString()
+          );
+        
+        if (likeToRemove) {
+            await Like.findByIdAndDelete(likeToRemove._id);
+            post.likes.pull(likeToRemove._id);
+            await post.save();
+            return res.send({ message: "unLiked successfully" });
+        }
+    
+        return res.status(404).send({ message: "Like not found" });
+
+        } catch (error) {
+            res.status(500).send({ message: "failed to unlike post" });
+        }
+}
+
 const searchPosts = async (req, res) => {
     const { query } = req.query;
     const handled_query = query.replace(/-/g, ' ');
@@ -148,5 +173,6 @@ module.exports = {
     createPost,
     getPosts,
     likePost,
-    searchPosts
+    unLikePost,
+    searchPosts,
 };
