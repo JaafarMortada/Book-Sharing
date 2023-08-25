@@ -3,6 +3,7 @@ import NavBar from "../../components/navbar";
 import { sendRequest } from "../../components/config/request";
 import { useState, useEffect, useCallback } from "react";
 import "./styles.css"
+import EmptyState from "../../assets/animated/emptyState";
 
 const HomePage = () => {
 
@@ -57,21 +58,34 @@ const HomePage = () => {
 
             <div className="book-cards-container">
                 {
-                    searchedPosts.length == 0 ?
-                        (followingFeed ?
-                            (
-                                followingFeedCards.map(book => (
-                                    <BookCard key={book.post.createdAt} data={book} followingFeed={followingFeed} />
-                                ))
+                    books.length == 0 || searchedPosts[0] === "no posts found" ?
+                    <div>
+                        <EmptyState/>
+                        <span>No books found...</span>
+                    </div>
+                    :
+                        (searchedPosts.length == 0 ?
+                            (followingFeed ?
+                                (
+                                    followingFeedCards.length != 0 ?
+                                        followingFeedCards.map(book => (
+                                            <BookCard key={book.post.createdAt} data={book} followingFeed={followingFeed} />
+                                        ))
+                                    : 
+                                    <div>
+                                        <EmptyState/>
+                                        <span>No books found...</span>
+                                    </div>
+                                ) : (
+                                    books.map(book => (
+                                        <BookCard key={book.post.createdAt} data={book} followingFeed={followingFeed} />
+                                    ))
+                                )
                             ) : (
-                                books.map(book => (
-                                    <BookCard key={book.post.createdAt} data={book} followingFeed={followingFeed} />
+                                searchedPosts.map(book => (
+                                    <BookCard key={book.post._id} data={book} followingFeed={followingFeed} />
                                 ))
                             )
-                        ) : (
-                            searchedPosts.map(book => (
-                                <BookCard key={book.post._id} data={book} followingFeed={followingFeed} />
-                            ))
                         )
                 }
             </div>

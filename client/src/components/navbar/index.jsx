@@ -29,7 +29,12 @@ const NavBar = ( {search} ) => {
                 method: "GET",
                 route: `/users/search?query=${data.query.replace(/ /g, "-")}`,
             });
-            if (response.posts) search(response.posts)
+            if (response.posts.length != 0) {
+                search(response.posts)
+            } else {
+                search(["no posts found"])
+            }
+                
             } catch (error) {
                 console.log(error)
             }
