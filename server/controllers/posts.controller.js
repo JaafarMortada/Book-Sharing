@@ -42,12 +42,13 @@ const getPosts = async (req, res) => {
                 const is_liked = the_post.likes.some(
                     (like) => like.user.toString() === userId
                 );
-
+                const likes_count = the_post.likes.length
                 const updated_post = {
                     ...post.toObject(),
                     user_id: user._id,
                     is_following,
                     is_liked,
+                    likes_count
                 };
 
                 Posts.push({
@@ -105,11 +106,15 @@ const searchPosts = async (req, res) => {
                         (post.genre && post.genre.match(regexQuery)) ||
                         (post.review && post.review.match(regexQuery))
                     ) {
-                        const is_liked = post.likes.some(
+                        const the_post = await Post.findById(post._id);
+                        const is_liked = the_post.likes.some(
                             (like) => like.user.toString() === user_id
                         );
+                        const likes_count = the_post.likes.length
+
+                        const is_following = user.followers.includes(user_id);
                         const postInfo = {
-                            postId: post._id,
+                            _id: post._id,
                             title: post.title,
                             author: post.author,
                             genre: post.genre,
@@ -117,9 +122,15 @@ const searchPosts = async (req, res) => {
                             likes: post.likes,
                             pic_url: post.pic_url,
                             is_liked,
+                            is_following,
+                            likes_count,
                             user_name: user.name,
+                            
                         };
-                        matchingPosts.push(postInfo);
+                        matchingPosts.push({
+                            user_name: user.name,
+                            post: postInfo
+                        });
                     }
                 }
             }
